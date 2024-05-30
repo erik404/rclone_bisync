@@ -52,8 +52,7 @@ This script can be integrated with cronjobs to automate the synchronization proc
 
 - The syncing process is slow due to the precautionary dry-run before each actual sync to maintain data integrity. I'll explore methods to improve its speed.
 - Rclone's bisync feature encounters difficulty when both the local and remote paths contain no content. If all content is deleted and a sync operation is initiated, Rclone may encounter issues and attempt to resync all data. **Solution**: Ensure that there is always at least one file present in either the local or remote path to prevent synchronization issues with Rclone's bisync feature.
-
-
+- Use at own risk!
 
 
 # 

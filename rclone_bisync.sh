@@ -42,17 +42,6 @@ if [ -z "$REMOTE_PATH" ]; then
     exit 1
 fi
 
-
-# Popup message using zenity
-show_popup() {
-    zenity --error --text="$1"
-}
-
-# Notification using notify-send
-send_notification() {
-    notify-send "rclone_bisync" "$1"
-}
-
 # Delete logs
 delete_logs() {
 	rm -f "$LOGFILE"
@@ -84,23 +73,23 @@ else
     # Check if "Bisync successful" is in the dry-run output
     if ! grep -q "Bisync successful" "$DRYRUN_OUTPUT"; then
 	     # Log the error if dry-run did not contain "Bisync successful"
-		show_popup "Rclone (dry-run) bisync failed. See $ERROR_FILE for details."
-        touch "$ERROR_FILE"
+        rm -f "$LOCKFILE"
+		touch "$ERROR_FILE"
         cat "$DRYRUN_OUTPUT" > "$ERROR_FILE"
         exit 1
 	fi
 	
 	# Run the actual bisync command
 	if $resync; then
-		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --resync 2>&1 | tee "$LOGFILE"
+		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --resync --max-lock 60 2>&1 | tee "$LOGFILE"
 	else
-		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force 2>&1 | tee "$LOGFILE"
+		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --max-lock 60 2>&1 | tee "$LOGFILE"
 	fi
 
 	if ! grep -q "Bisync successful" "$LOGFILE"; then
+		rm -f "$LOCKFILE"
 		touch "$ERROR_FILE"
 		cat "$LOGFILE" > "$ERROR_FILE"
-		show_popup "Rclone bisync failed. See $ERROR_FILE for details."
 		exit 1
 	fi    
 	
