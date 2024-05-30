@@ -47,6 +47,7 @@ This script can be integrated with cronjobs to automate the synchronization proc
 - In case of synchronization errors, an error message will be displayed on the screen using Zenity.
 - Additionally, an error log will be created at `/tmp/rclone_sync_error.log`. This log can be referenced for troubleshooting and analysis.
 - To prevent the synchronization process from restarting prematurely, a lock file will be created at `/tmp/rclone_sync.lock`. This file ensures that only one instance of the synchronization script runs at a time, avoiding potential conflicts and data corruption.
+- On fail the lock file will be removed. The rclone lock file will be removed after 10 minutes.
 
 ## Knowns issues
 
