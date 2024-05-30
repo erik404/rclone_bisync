@@ -21,12 +21,12 @@ This script offers a solution for bidirectional file synchronization between a l
 1. Clone or download the script to your local machine.
 2. Make the script executable:
     ```bash
-    chmod +x rclone_sync.sh
+    chmod +x rclone_bisync.sh
     ```
 3. Run the script with the desired options:
 
     ```bash
-    ./rclone_sync.sh --local "/path/to/local/directory" --remote "remote:directory"
+    ./rclone_bisync.sh --local "/path/to/local/directory" --remote "remote:directory"
     ```
 
 ### Command-line Options
@@ -36,7 +36,7 @@ This script offers a solution for bidirectional file synchronization between a l
 
 ### Example
 
-    ./rclone_sync.sh --local "/media/user/Proton/" --remote "proton:"
+    ./rclone_bisync.sh --local "/media/user/Proton/" --remote "proton:"
 
 ### Automatic Synchronization with Cronjobs
 
