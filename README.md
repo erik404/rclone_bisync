@@ -15,7 +15,7 @@ This script offers a solution for bidirectional file synchronization between a l
 ### Prerequisites
 
 - [Rclone](https://rclone.org/) must be installed on your system.
-- [Zenity](https://help.gnome.org/users/zenity/stable/) must be installed on your system.
+
 ### Running the Script
 
 1. Clone or download the script to your local machine.
@@ -44,10 +44,9 @@ This script can be integrated with cronjobs to automate the synchronization proc
 
 ## Error Handling and File Management
 
-- In case of synchronization errors, an error message will be displayed on the screen using Zenity.
-- Additionally, an error log will be created at `/tmp/rclone_sync_error.log`. This log can be referenced for troubleshooting and analysis.
+- In case of synchronization errors an error log will be created at `/tmp/rclone_sync_error.log`. This log can be referenced for troubleshooting and analysis.
 - To prevent the synchronization process from restarting prematurely, a lock file will be created at `/tmp/rclone_sync.lock`. This file ensures that only one instance of the synchronization script runs at a time, avoiding potential conflicts and data corruption.
-- On fail the lock file will be removed. The rclone lock file will be removed after 10 minutes.
+- On fail the lock file will be removed. The rclone lock file will be removed after 10 minutes. Rclone has a recovery strategy with a hard --resync flag.
 
 ## Knowns issues
 
