@@ -84,6 +84,10 @@ else
 		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --resync --max-lock 10 2>&1 | tee "$LOGFILE"
 	else
 		rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --max-lock 10 2>&1 | tee "$LOGFILE"
+		if grep -q "Must run --resync to recover" "$DRYRUN_OUTPUT"; then
+			rm -f "$LOGFILE"
+			rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --create-empty-src-dirs --compare size,modtime,checksum --slow-hash-sync-only -MvP --drive-skip-gdocs --fix-case --force --resync --max-lock 10 2>&1 | tee "$LOGFILE"
+		fi
 	fi
 
 	if ! grep -q "Bisync successful" "$LOGFILE"; then
