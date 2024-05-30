@@ -1,4 +1,4 @@
-# Rclone Sync
+# Rclone Bisync
 
 ## Overview
 
